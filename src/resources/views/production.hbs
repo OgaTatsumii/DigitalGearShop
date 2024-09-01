@@ -1,0 +1,231 @@
+{{#if noProducts}}
+<h1 class="error">{{noProducts}}</h1>
+{{else}}
+
+<form method="GET" action="/production/search/date/view" class="searchDate" id="searchFormDate">
+    <div class="searchDateContainerProduct">
+        <input type="date" name="dateBegin"  required />
+        <span> - </span>
+        <input type="date" name="dateEnd"  required  />  
+        <button type="submit" value="Search" class="buttonDateSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form> 
+
+<form method="GET" action="/production/sort/date/product" class="searchDate" id="searchDate">
+    <div class="searchDateContainer">
+        <select name="createdAt" class="selectType" id="situationProductSelect" required>
+            <option value="">--- Xếp theo ---</option>
+            <option value="Latest">Mới nhất</option>
+            <option value="Oldest">Cũ nhất</option>
+            <option value="PriceIncr">Giá: Tăng dần</option>
+            <option value="PriceDesc">Giá: Giảm dần</option>
+            <option value="NameA-Z">Tên: A-Z</option>
+            <option value="NameZ-A">Tên:Z-A</option>
+        </select>
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form>    
+
+ <form method="GET" action="/production/search/price/view" class="searchPrice" id="searchFormPrice">
+    <div class="searchPricesContainerProduct">
+        <input type="number" name="priceMin" placeholder="0.000.000đ" class="inputPriceSearch" id="priceMinInput" min="0" required />
+        <span> - </span>
+        <input type="number" name="priceMax" placeholder="0.000.000đ" class="inputPriceSearch" id="priceMaxInput" min="0" required  />  
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form> 
+
+<div class="coreiProduct">
+
+    {{#each productions}}
+        <div id="DIV_1">
+            <div id="DIV_3">
+                <a href="/production/{{this.slug}}" id="A_4"><img
+                        src="{{this.image.[0]}}"
+                        alt="{{this.name}}"
+                        id="IMG_5"
+                    /></a>
+                <div id="DIV_6">
+                    <a href="/production/{{this.slug}}" id="A_7"><div
+                            id="DIV_8"
+                        >
+                            Xem chi tiết
+                        </div></a>
+                    {{#if (eq this.quantity 0)}}
+                       <p class="outOfStock">Hết hàng</p>
+                    {{else}}
+                    <form action="/cart/add-to-cart" method="POST">
+                        <input type="hidden" name="id" value="{{this._id}}">
+                        <button id="A_9" type="submit">Đặt hàng</button>    
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+            <h2 id="H2_10">
+                <a
+                    href="/production/{{this.slug}}"
+                    class="line-clamp"
+                >{{this.name}}</a>
+                
+            </h2>
+            <div class="tonKho">Tồn kho: {{this.quantity}}</div>
+            <div id="DIV_11">
+                <div id="DIV_12">
+                    <br id="BR_13" /><span id="SPAN_14">{{formatCurrency
+                            this.new_prices
+                        }}</span>
+                </div>
+
+            </div>
+        </div>
+
+    {{/each}}
+<!--- pagination --->
+
+
+
+{{#if sort}}
+
+    <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/sort/date/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/production/sort/date/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/sort/date/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+ {{else if searchPrices}}  
+  <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/search/price/view/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/production/search/price/view/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/search/price/view/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+{{else}}
+    <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/production/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+    {{/if}}
+</div>
+{{/if}}
+<script>
+    document.getElementById("searchFormPrice").addEventListener("submit", function(event) {
+        var priceMinInput = document.getElementById("priceMinInput");
+        var priceMaxInput = document.getElementById("priceMaxInput");
+
+        if (parseInt(priceMaxInput.value) <= parseInt(priceMinInput.value)) {
+            alert("Khoảng tìm kiếm không hợp lệ.");
+            event.preventDefault(); // Ngăn chặn việc gửi form nếu không hợp lệ
+        }
+    });
+</script>
+<script>
+    const searchForm = document.getElementById('searchFormDate');
+    const dateBeginInput = searchForm.querySelector('input[name="dateBegin"]');
+    const dateEndInput = searchForm.querySelector('input[name="dateEnd"]');
+
+    searchForm.addEventListener('submit', function (event) {
+        const dateBegin = new Date(dateBeginInput.value);
+        const dateEnd = new Date(dateEndInput.value);
+
+        if (dateBegin > dateEnd) {
+            event.preventDefault(); // Ngăn chặn gửi form khi ngày bắt đầu lớn hơn ngày kết thúc
+            alert('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.');
+        }
+    });
+</script>
+

@@ -1,0 +1,143 @@
+<style>
+    .footer-clean { margin-top: 3000px;}
+</style>
+
+{{!-- {{#if noProducts}}
+<h1 class="error">{{noProducts}}</h1>
+{{else}}
+
+
+
+<form method="GET" action="/admin/myOrderSearch" class="searchAdmin" id="searchForm">
+    <div class="searchContainerAdmin">
+        <input type="text" name="id" placeholder="Nhập mã đơn hàng" class="inputSearch" id="nameInput"  />
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form> --}}
+
+{{#each orders}}
+<div class="orders-container">
+  
+  
+  <div class="order-wrapper">
+    <section class="vh-100 gradient-custom-2">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="orderList col-md-10 col-lg-8 col-xl-6">
+            <div class="card card-stepper" style="border-radius: 16px;">
+              <div class="card-header p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-2">Order ID <span class="fw-bold text-body">{{_id}}</span></p>
+                    <p class="text-muted mb-0">Place On <span class="fw-bold text-body">GROUP 25</span></p>
+                  </div>
+                  {{!-- <div>
+                    <h6 class="mb-0"><a href="#">Xem chi tiết</a></h6>
+                  </div> --}}
+                </div>
+              </div>
+              <div class="card-body p-4">
+                <!-- Loop through order items -->
+                {{#each this.items}}
+                <div class="d-flex flex-row mb-4 pb-2">
+                  <div class="flex-fill">
+                    <h5 class="bold">{{this.name}}</h5>
+                    <p class="text-muted">Số lượng: {{this.quantity}}</p>
+                    <h4 class="mb-3">Giá tiền: <span class="text-muted">{{formatCurrency this.price}}</span></h4>
+                    <p class="text-muted">Đặt vào: <span class="text-body">{{formatDate ../createdAt}}</span></p>
+                  </div>
+                  <div>
+                    <img class="align-self-center img-fluid" src="{{this.image}}" width="250">
+                  </div>
+                </div>
+                {{/each}}
+                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+                  {{#if (eq situation "Preparing")}}  
+                    <li class="step0 active " id="step1"><span style="margin-left: 22px; margin-top: 12px;">Đặt hàng</span></li>
+                    <li class="step0 text-muted  text-center" id="step2"><span>Đang giao</span></li>
+                    <li class="step0 text-end" id="step3"><span style="margin-left: 90px;">Hoàn tất</span></li>
+                  {{else if (eq situation "Delivering")}}
+                    <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">Đặt hàng</span></li>
+                    <li class="step0 active text-center" id="step2"><span>Đang giao</span></li>
+                    <li class="step0 text-muted text-end" id="step3"><span style="margin-left: 90px;">Hoàn tất</span></li>
+                  {{else if (eq situation "Completed")}}
+                    <li class="step0 active" id="step1"><span style="margin-left: 22px; margin-top: 12px;">Đặt hàng</span></li>
+                    <li class="step0 active text-center" id="step2"><span>Đang giao</span></li>
+                    <li class="step0 active text-end" id="step3"><span style="margin-left: 90px;">Hoàn tất</span></li>
+                  {{else if (eq situation "Failed")}}
+                    <li class="step0 text-muted " id="step1"><span style="margin-left: 22px; margin-top: 12px;">Đặt hàng</span></li>
+                    <li class="step0 text-muted text-center" id="step2"><span>Đang giao</span></li>
+                    <li class="step0 text-muted text-end" id="step3"><span style="margin-left: 90px;">Hoàn tất</span></li>
+                  {{else if (eq situation "Canceled")}}
+                    <li class="step0 text-muted " id="step1"><span style="margin-left: 22px; margin-top: 12px;">Đặt hàng</span></li>
+                    <li class="step0 text-muted text-center" id="step2"><span>Đang giao</span></li>
+                    <li class="step0 text-muted text-end" id="step3"><span style="margin-left: 90px;">Hoàn tất</span></li>
+                  {{/if}}
+                </ul>
+              </div>
+              <div class="totalAmount"><span class="title">Tổng tiền:</span> <span class="price"> {{formatCurrency this.totalAmount}}</span></div>
+              
+                <div class="card-footer p-4">
+                <div class="d-flex justify-content-between">
+                  <div class="border-start h-100"></div>
+                  {{!-- <h5 class="fw-normal mb-0"><a href="#!">Xem chi tiết</a></h5> --}}
+                  {{!-- <div class="border-start h-100"></div>        --}}
+                  {{#if (eq situation "Preparing")}}   
+                  <h5 class="fw-normal mb-0"> Đơn hàng đang hoàn tất đóng gói</h5>
+                  <h5 class="cancelButton fw-normal mb-0" data-id="{{_id}}" situation ="Canceled"><a href="#!">Cancel</a></h5>
+                  
+              {{else if (eq situation "Delivering")}} 
+                  <h5 class="fw-normal mb-0"> Đơn hàng của bạn đang được vận chuyển </h5>
+              {{else if (eq situation "Completed")}} 
+                  <h5 class="fw-normal mb-0"> Cảm ơn bạn đã chọn mua hàng tại GROUP 25 </h5>
+              {{else if (eq situation "Failed")}} 
+                  <h5 class="fw-normal mb-0"> Đơn hàng giao không thành công </h5>
+              {{else if (eq situation "Canceled")}} 
+                  <h5 class="fw-normal mb-0"> Đơn hàng đã hủy</h5>
+                  {{#if reasonCancel}}
+                  <h5 class="fw-normal mb-0"> Lí do hủy: {{reasonCancel}} </h5>
+                  {{else}}
+                  <h5 class="fw-normal mb-0">Khách hàng đã không phàn nàn bất cứ điều gì</h5>
+                  {{/if}}
+              {{/if}}
+              <div class="border-start h-100"></div>
+            
+                  
+                
+                  {{!-- <h5 class="fw-normal mb-0"><a href="#!" class="text-muted"><i class="fas fa-ellipsis-v"></i></a></h5> --}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  
+</div>
+{{/each}}
+<div class="modal1">
+    <div class="confirmCancel">
+        <form name="cancel-user-form" method="POST">
+            <div class="desc">Thông báo </div>
+            <div class="close2">
+                <span class="icon-close">
+                    <ion-icon name="close"></ion-icon>
+                </span>
+            </div>
+            <p>Bạn thật sự muốn hủy đơn hàng này ?</p>
+            <textarea class="reasonCancel" id="note" name="reasonCancel" placeholder="Lí do hủy đơn hàng"  ></textarea>
+            <input name="situation" value="Canceled" type="text" style="display: none;">
+            <div class="action">
+                <button type="submit" id="btn-delete-user-cancel" class="btn">
+                    Đúng
+                </button>
+                <a class="btn denied"> Hủy </a>
+            </div>
+        </form>
+    </div>
+</div>
+{{!-- {{/if}} --}}

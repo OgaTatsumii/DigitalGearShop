@@ -1,0 +1,61 @@
+
+<i class="fa-solid fa-right-from-bracket" onclick="goBack()" style="color: #2c67ce;"></i>
+
+{{#if date}}
+<p class="titleStatistic" ><strong>Thống kê doanh thu ngày {{date}}</strong> </p>
+{{/if}}
+
+{{#if month}}
+<p class="titleStatistic"><strong>Thống kê doanh thu tháng {{month}}</strong></p>
+{{/if}}
+
+{{#if year}}
+<p class="titleStatistic"><strong>Thống kê doanh thu năm {{year}}</strong></p>
+{{/if}}
+
+{{#if AllOrder}}
+    {{!-- statistic content --}}
+  <div class="row2">
+    {{!-- statistic content --}}
+    <div class="table-container-wrapper-statistic">
+      <table class="table-container-statistic" border="1" width="100%">
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Khách hàng</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Tổng(VNĐ)</th>
+            <th scope="col">Thời gian</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each AllOrder}}
+          <tr>
+            <th scope="row" class="stt">{{sum @index 1}}</th>
+            {{#each this.userInfor}}
+            <td>{{this.firstName}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phone}}</td>
+            {{/each}}
+            <td>{{formatCurrency totalAmount}}</td>
+            <td>{{formatDate this.createdAt}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+
+      </table>
+    </div>
+    <p class="totalOfOption">Tổng: {{formatCurrency total}}</p>
+</div>
+{{else}}
+<p class="undefined">Không tìm thấy thông tin phù hợp</p>
+{{/if}}
+
+
+<script>
+function goBack() {
+  window.location.href = "/admin/statistic";
+}
+</script>

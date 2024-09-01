@@ -1,0 +1,266 @@
+<head>
+    <script src="https://kit.fontawesome.com/826d945e8c.js"></script>
+</head>
+
+
+<form
+    name="container-form"
+    method="POST"
+    action="/cart/handle-form-actions"
+>
+
+<div class="header_cart ">
+    <h1>Quản lí đơn hàng</h1>
+
+    <div class="notification">
+            <a href="/admin/trash/order" class="trash"><ion-icon
+                    class="trashIcon"
+                    name="trash-outline"
+                ></ion-icon></a>
+            <span class="badge">{{deletedCount}}</span>
+        </div>    
+    
+</div>
+
+{{#if orders}}
+<div class="allCheck_order">
+    <div class="allCheck">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="check-box-all"
+                />
+                <label class="form-check-label" for="check-box-all">
+                    Chọn tất cả
+                </label>
+            </div>
+    
+            <div class="form-group">
+    
+                <select
+                    class="form-control-order form-control form-control-sm"
+                    id=""
+                    name="action"
+                    required
+                >
+                    <option value="">---Chọn hành động---</option>
+                    <option value="delete">Xóa</option>
+                    {{! <option>3</option>
+                    <option>4</option>
+                    <option>5</option> }}
+                </select>
+            </div>
+    
+            <button class="btn btn-primary btn-sm disable">Áp dụng</button>
+    
+        </div>
+       
+</div>
+<div class="table-container">
+<table class="table-account table-cart-account" border="1" width="100%">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mã đơn hàng</th>
+            <th scope="col">Tên khách hàng</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Email</th>
+            <th scope="col">Tổng tiền 
+                {{{sortable "totalAmount" _sort }}}
+            </th>
+            <th scope="col">Đặt vào </th>
+            <th scope="col">Tình trạng đơn hàng</th>
+            <th scope="col">Cập nhật đơn hàng</th>
+            <th scope="col">Cập nhật</th>
+            <th scope="col">Xóa</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each orders}}
+    {{#each this.userInfor}}
+        <tr>
+            <td>
+                <div class="form-check">
+                    <input
+                        class="form-check-input-order"
+                        type="checkbox"
+                        value="{{../_id}}"
+                        name="productionIds[]"
+                    />
+                </div>
+            </td>
+</form>
+            <td>{{../_id}}</td>
+            <td class="customer-name-column">{{this.firstName}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.phone}}</td>
+            <td>{{this.email}}</td>
+            <td>{{formatCurrency ../totalAmount}}</td>
+            <td>{{formatDate ../createdAt}}</td>
+            <td>
+                {{#if (eq ../situation 'Preparing')}}
+                    <span class="status-badge preparing">Đang chuẩn bị</span>
+                {{else if (eq ../situation 'Delivering')}}
+                    <span class="status-badge delivering">Đang giao</span>
+                {{else if (eq ../situation 'Failed')}}
+                    <span class="status-badge failed">Giao thất bại</span>
+                {{else if (eq ../situation 'Completed')}}
+                    <span class="status-badge completed">Hoàn tất</span>
+                {{else if (eq ../situation 'Canceled')}}
+                    <span class="status-badge failed">Đã hủy</span>
+                {{/if}}
+            </td>
+            <td>
+                <form method="POST" action="/admin/{{../_id}}/order?_method=PUT">
+    <div class="custom-dropdown">
+    {{!-- {{#if (eq ../situation 'Completed')}}
+    ___________
+    {{#else if (eq ../situation 'Failed')}}
+    ___________
+    {{#else if (eq ../situation 'Canceled')}}
+    ___________
+{{else}}
+    <select name="situation" required>
+        <option value="">--Cập nhật--</option>
+        <option value="Preparing">Đang chuẩn bị</option>
+        <option value="Delivering">Đang giao</option>
+        <option value="Failed">Giao thất bại</option>
+        <option value="Completed">Hoàn tất</option>
+    </select>
+
+
+  </select>
+</div>
+
+
+</td>
+{{/if}} --}}
+
+{{#if (eq ../situation 'Completed')}}
+    _________
+    {{else if (eq ../situation 'Failed')}}
+    _________
+    {{else if (eq ../situation 'Canceled')}}
+    _________
+{{else}}
+    <select name="situation" required>
+        <option value="">--Cập nhật--</option>
+        <option value="Preparing">Đang chuẩn bị</option>
+        <option value="Delivering">Đang giao</option>
+        <option value="Failed">Giao thất bại</option>
+        <option value="Completed">Hoàn tất</option>
+    </select>
+
+  </select>
+</div>
+
+</td>
+{{/if}}
+
+{{!-- {{#if (or (eq ../situation 'Completed') (eq ../situation 'Failed'))}}
+            <td><i class="fa-solid fa-pen-to-square"></i></td>
+            </form>
+{{else}}
+            <td><button class="updateOrderBtn" type="submit"><i class="fa-solid fa-pen-to-square"></i></button></i></td>
+            </form>
+{{/if}} --}}
+
+
+{{#if (eq ../situation 'Completed')}}
+    <td><i class="fa-solid fa-pen-to-square"></i></td>
+            </form>
+    {{else if (eq ../situation 'Failed')}}
+    <td><i class="fa-solid fa-pen-to-square"></i></td>
+            </form>
+    {{else if (eq ../situation 'Canceled')}}
+    <td><i class="fa-solid fa-pen-to-square"></i></td>
+            </form>
+{{else}}
+    <td><button class="updateOrderBtn" type="submit"><i class="fa-solid fa-pen-to-square"></i></button></i></td>
+            </form>
+{{/if}}
+            <td><a href="#" class="btn-link deleteProductionModal4" data-id="{{../_id}}"><i class="fa-solid fa-trash-can"></i></a></td>
+        </tr>
+    {{/each}}
+{{/each}}
+
+        {{#if cartUser}}
+        
+        <tr>
+            <td colspan="3"></td>
+            <td class="total-label"><strong>Tổng tiền:</strong></td>
+            <td class="total-amount">{{formatCurrency totalAmount}}</td>
+        </tr>
+        
+        <tr>
+            <td  colspan="5" style="font-weight: bold; font-size: 20px;"> 
+                <textarea id="note" name="note" rows="8" cols="50" placeholder="Ghi chú" style="margin: 0px; height: 67px; border-color: rgb(100, 152, 205); border-width: 1px; width: 1222px;"></textarea>
+            </td>
+           
+        </tr>   
+        {{/if}}
+    </tbody>
+</table>
+</div>
+{{else}}
+    <tr>
+                    <h2  class="text-center-cart">
+                        Chưa có đơn hàng nào được đặt!
+                        
+                    </h2>
+                </tr>
+{{/if}}
+
+{{#if cartUser}}
+
+        <form action="/cart/checkout" method="GET">
+                <button class="order" type="submit">Thanh toán</button>
+            </form>
+{{/if}}
+
+<form name="restore-delete-production" method="POST"></form>
+
+<form method="GET" action="/admin/search/situation/order" class="searchSituationOrder" id="searchFormSituation">
+    <div class="searchContainer">
+        <select name="situation" class="selectType" id="situationProductSelect" required>
+            <option value="">--- Tình trạng ---</option>
+            <option value="All">Tất cả</option>
+            <option value="Preparing">Đang chuẩn bị</option>
+            <option value="Delivering">Đang giao</option>
+            <option value="Failed">Giao thất bại</option>
+            <option value="Completed">Hoàn tất</option>
+            <option value="Canceled">Đã hủy</option>
+        </select>
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form>
+
+
+<div class="modal1">
+
+    <div class="confirmDelete">
+
+        <form name="delete-user-form-4" method="POST">
+            <div class="desc">Thông báo</div>
+            <div class="close2">
+                <span class="icon-close">
+                    <ion-icon name="close"></ion-icon>
+                </span>
+            </div>
+            <p>Bạn thật sự muốn xóa đơn hàng này ?</p>
+            <div class="action">
+                <button type="submit" id="btn-delete-user-4" class="btn">
+                    Đúng
+                </button>
+                <a class="btn denied"> Hủy </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>

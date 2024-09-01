@@ -1,0 +1,44 @@
+
+<i class="fa-solid fa-right-from-bracket" onclick="goBack()" style="color: #2c67ce;"></i>
+<p class="titleStatistic" ><strong>Sản phẩm với số lượng bán ra cao nhất theo loại {{type}}</strong> </p>
+
+{{#if highestSalesOfType}}
+<div class="row5 row2">
+  {{!-- statistic content --}}
+  <div class="table-container-wrapper-statistic">
+    <table class="table-container-statistic" border="1" width="100%">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Loại sản phẩm</th>
+          <th scope="col">Tên sản phẩm</th>
+          <th scope="col">Tống số lượng</th>
+          <th scope="col">Đã bán</th>
+          <th scope="col">Tiền lời trên mỗi sản phẩm</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {{#each highestSalesOfType}}
+        <tr>
+          <th scope="row" class="stt">{{sum @index 1}}</th>
+          <td>{{this.type}}</td>
+          <td>{{this.name}}</td>
+          <td>{{this.total_quantity}}</td>
+          <td>{{subtract this.total_quantity this.quantity}}</td>
+          <td>{{formatCurrency this.profitPerProduct}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+{{else}}
+<p class="undefined">Không tìm thấy thông tin phù hợp</p>
+{{/if}}
+
+<script>
+function goBack() {
+    window.location.href = "/admin/statistic";
+}
+</script>

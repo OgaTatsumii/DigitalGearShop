@@ -1,0 +1,99 @@
+<main>
+    <div class="imgHome">
+        <img
+            class="img-block-1"
+            src="/img/linh-kien-03-20230130065417-bvosd.png"
+            alt=""
+        />
+        <img
+            class="img-block-2"
+            src="/img/linh-kien-04-20230130065417-iotyi.png"
+            alt=""
+        />
+    </div>
+</main>
+
+<!-- Login -->
+        <div class="modal active-popup">
+            <div class="wrapper active-popup">
+                <div class="close1">
+                    <span class="icon-close">
+                        <ion-icon name="close"></ion-icon>
+                    </span>
+                </div>
+                <div class="form-box login">
+                    <h2>Đăng nhập</h2>
+                    {{#if error}}
+                            <p class="errorLogin">{{error}}</p>
+                        {{/if}}
+                    <form action="/login" method ="POST" >
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="mail"
+                                ></ion-icon></span>
+                            <input type="email" name="email" required />
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="lock-closed"
+                                ></ion-icon></span>
+                            <input type="password" name="password" required />
+                            <label for="ipnPassword">Mật khẩu</label>
+                            <i class="fa-solid fa-eye hiden-unhiden"></i>
+                            
+                        </div>
+                        <div class="remember-forgot">
+                            <label><input type="checkbox" />
+                                Lưu lại tài khoản</label>
+                            <a href="/forgot-password" onclick="forgotPassword()">Quên mật khẩu?</a>
+                        </div>
+                        <button type="submit" class="btn">Đăng nhập</button>
+                        <div class="login-register">
+                            <p>
+                                Chưa có tài khoản ?
+                                <a href="#" class="register-link"> Đăng kí </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-box register">
+                    <h2>Đăng kí</h2>
+                    <form method = "POST" action="/register">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="person"
+                                ></ion-icon></span>
+                            <input type="text"  id="name" name="username" required />
+                            <label>Tên tài khoản</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="mail"
+                                ></ion-icon></span>
+                            <input type="email" id="email" name="email" required />
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="lock-closed"
+                                ></ion-icon></span>
+                            <input type="password" id="password" name="password" required />
+                            <label>Mật khẩu</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <label><input type="checkbox" />
+                                Tôi đồng ý với điều khoản dịch vụ</label>
+                        </div>
+                        <button type="submit" class="btn">Đăng kí</button>
+                        <div class="login-register">
+                            <p>
+                                Đã có tài khoản ?
+                                <a href="#" class="login-link"> Đăng nhập </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>

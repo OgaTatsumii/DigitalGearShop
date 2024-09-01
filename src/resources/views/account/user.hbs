@@ -1,0 +1,131 @@
+<form
+    name="container-form"
+    method="POST"
+    action="/admin/user/handle-form-actions"
+>
+    <div class="mt-4 production_Heading">
+        <h1>Danh sách khách hàng</h1>
+
+    </div>
+
+    <div class="allCheck">
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="check-box-all"
+            />
+            <label class="form-check-label" for="check-box-all">
+                Chọn tất cả
+            </label>
+        </div>
+
+        <div class="form-group">
+
+            <select
+                class="form-control form-control-sm"
+                id=""
+                name="action"
+                required
+            >
+                <option value="">---Chọn hành động---</option>
+                <option value="delete">Xóa</option>
+                {{! <option>3</option>
+                <option>4</option>
+                <option>5</option> }}
+            </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm disable">Áp dụng</button>
+
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col0">#</th>
+                <th scope="col" class="col1">STT</th>
+                <th scope="col" class="col2">Tên tài khoản
+                    {{{sortable "username" _sort}}}
+                </th>
+                <th scope="col" class="col3">Email
+                    {{{sortable "email" _sort}}}
+                </th>
+                <th scope="col" class="col4">Password</th>
+                <th scope="col" class="col5">Thời gian tạo
+                    {{{sortable "createdAt" _sort}}}
+                </th>
+                <th scope="col" class="col6">Tùy chọn</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each user}}
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value="{{this._id}}"
+                                name="productionIds[]"
+                            />
+
+                        </div>
+                    </td>
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td class="col-content">{{this.username}}</td>
+                    <td class="col-content-3">{{this.email}}</td>
+                    {{!-- {{#each this.image}} --}}
+                    <td class="col-content-4">{{this.password}}</td>
+                    {{!-- {{/each}} --}}
+                    <td class="col-content">{{formatDate this.createdAt}}</td>
+                    <td class="col-content-6">
+                        <a
+                            href="/admin/{{this._id}}/edit"
+                            class="btn-link"
+                        >Sửa</a>
+                        <a
+                            href="#!"
+                            class="btn-link deleteProductionModal2"
+                            data-id="{{this._id}}"
+                        >Xóa</a>
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        Chưa có tài khoản nào được tạo.
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</form>
+
+<form name="restore-delete-production" method="POST"></form>
+
+<div class="modal1">
+
+    <div class="confirmDelete">
+
+        <form name="delete-user-form-2" method="POST">
+            <div class="desc">Thông báo</div>
+            <div class="close2">
+                <span class="icon-close">
+                    <ion-icon name="close"></ion-icon>
+                </span>
+            </div>
+            <p>Bạn thật sự muốn xóa tài khoản này ?</p>
+            <div class="action">
+                <button type="submit" id="btn-delete-user-2" class="btn">
+                    Đúng
+                </button>
+                <a class="btn denied"> Hủy </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>

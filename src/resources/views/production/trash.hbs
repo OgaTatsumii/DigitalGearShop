@@ -1,0 +1,215 @@
+
+
+{{#if noProducts}}
+    <h1 class="error">{{noProducts}}</h1>
+{{else}}
+
+<form
+    name="container-form"
+    method="POST"
+    action="/production/trash/handle-form-actions"
+>
+    <div class="mt-4 production_Heading">
+        <h1>Sản phẩm đã xóa</h1>
+
+
+        <div class="notification">
+            <a href="/admin/stored/production"><ion-icon
+            name="return-down-back-outline"
+        ></ion-icon></a>
+        </div>
+
+
+    </div>
+
+
+    <div class="allCheck">
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="check-box-all"
+            />
+            <label class="form-check-label" for="check-box-all">
+                Chọn tất cả
+            </label>
+        </div>
+
+
+        <div class="form-group">
+
+
+            <select
+                class="form-control form-control-sm"
+                id=""
+                name="action"
+                required
+            >
+                <option value="">---Chọn hành động---</option>
+                <option value="restore">Khôi phục</option>
+                <option value="forceDelete">Xóa vĩnh viễn</option>
+                {{! <option>3</option>
+                <option>4</option>
+                <option>5</option> }}
+            </select>
+        </div>
+
+
+        <button class="btn btn-primary btn-sm disable">Áp dụng</button>
+
+
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="col0">#</th>
+                <th scope="col" class="col1">STT</th>
+                <th scope="col" class="col2">Tên sản phẩm
+                    {{{sortable "name" _sort }}}
+                </th>
+                <th scope="col" class="col3">Giá tiền
+                    {{{sortable "new_prices" _sort }}}
+                </th>
+                <th scope="col" class="col4">Hình ảnh mô tả</th>
+                <th scope="col" class="col5">Số lượng
+                    {{{sortable "quantity" _sort  }}}
+                </th>
+                <th scope="col" class="col6">Tình trạng
+                    
+                </th>
+                <th scope="col" class="col7">Tùy chọn</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each productions}}
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value="{{this._id}}"
+                                name="productionIds[]"
+                            />
+
+
+                        </div>
+                    </td>
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td class="col-content">{{this.name}}</td>
+                    <td class="col-content-5">{{formatCurrency
+                            this.new_prices
+                        }}</td>
+                    {{!-- {{#each this.image}} --}}
+                    <td class="col-content-4"><img
+                            src="{{this.image.[0]}}"
+                            alt="{{this.name}}"
+                        /></td>
+                    {{!-- {{/each}} --}}
+                    <td class="col-content_5"> <span class="content">{{this.quantity}}</span></td>
+
+
+                    <td class="col-content_6">
+
+
+                        {{#if (eq this.quantity 0)}}
+                        <span class="content1">Hết hàng</span>
+                           
+                        {{else}}
+                            <span class="content2">Còn hàng</span>
+                        {{/if}}
+                    </td>
+                    <td class="col-content-7">
+                        <a
+                           href=""
+                           class="btn-link btn-restore"
+                           data-id="{{this._id}}"
+                        >Khôi phục</a>
+                        
+                        <div>
+                            <a
+                                href="#!"
+                        class="btn-link fDeleteProductionModal"
+                        data-id="{{this._id}}"
+                            >Xóa vĩnh viễn</a>
+                        </div>
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        Thùng rác rỗng
+                        <a href="/admin/stored/production" style="color: red;">Quản lí sản
+                            phẩm tại đây!</a>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</form>
+
+
+<form name="restore-delete-production" method="POST"></form>
+
+
+
+
+<div class="modal1">
+
+    <div class="confirmDelete">
+
+        <form name="forceDelete-user-form" method="POST">
+            <div class="desc">Thông báo</div>
+            <div class="close2">
+                <span class="icon-close">
+                    <ion-icon name="close"></ion-icon>
+                </span>
+            </div>
+            <p>Hành động này không thể khôi phục ! Bạn vẫn muốn xóa sản phẩm này
+                ?</p>
+            <div class="action">
+                <button type="submit" id="btn-fDelete-user" class="btn">
+                    Xóa
+                </button>
+                <a class="btn denied"> Hủy </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- Search -->
+        {{!-- <form method="GET" action="/admin/search" class="searchAdmin">
+    <div class="searchContainer">
+        <input type="text" name="name" placeholder="Nhập tên sản phẩm" class="inputSearch" />
+        <select name="typeProduct" class="selectType">
+            <option value="">--- Chọn loại sản phẩm ---</option>
+            <option value="VGA">VGA</option>
+            <option value="RAM">RAM</option>
+            <option value="SSD">SSD/HDD</option>
+            <option value="CASE">CASE</option>
+            <option value="MAIN">MAIN</option>
+            <option value="CPU">CPU</option>
+            <option value="FAN">FAN</option>
+            <option value="PSU">PSU</option>
+        </select>
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form> --}}
+
+
+
+</div>
+{{/if}}

@@ -1,0 +1,52 @@
+
+<i class="fa-solid fa-right-from-bracket" onclick="goBack()" style="color: #2c67ce;"></i>
+
+
+<p class="titleStatistic" ><strong>Trạng thái đơn hàng: {{preparingStatus}}{{deliveringStatus}}{{completedStatus}}{{failedStatus}}</strong> </p>
+
+
+{{#if ItemStatus}}
+    {{!-- statistic content --}}
+  <div class="row2">
+    {{!-- statistic content --}}
+    <div class="table-container-wrapper-statistic">
+      <table class="table-container-statistic" border="1" width="100%">
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Khách hàng</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Tổng(VNĐ) {{{sortInstatistic "totalAmount" _sort }}}</th>
+            <th scope="col">Cập nhật trạng thái lúc {{{sortInstatistic "updatedAt" _sort }}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each ItemStatus}}
+          <tr>
+            <th scope="row" class="stt">{{sum @index 1}}</th>
+            {{#each this.userInfor}}
+            <td>{{this.firstName}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phone}}</td>
+            {{/each}}
+            <td>{{formatCurrency totalAmount}}</td>
+            <td>{{formatDate this.updatedAt}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+
+      </table>
+    </div>
+</div>
+{{else}}
+<p class="undefined">Không tìm thấy thông tin phù hợp</p>
+{{/if}}
+
+
+<script>
+function goBack() {
+  window.location.href = "/admin/statistic";
+}
+</script>

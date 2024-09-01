@@ -1,0 +1,128 @@
+<head>
+    <script src="https://kit.fontawesome.com/826d945e8c.js"></script>
+</head>
+
+<div class="header_cart ">
+    <h1>Giỏ Hàng</h1>
+</div>
+{{#if cartUser}}
+
+    {{#if userId}}
+    <form action="/cart/update/{{userId}}?_method=PUT" method="POST">
+    {{else}}
+    <form action="/cart/update-guest?_method=PUT" method="POST">
+    {{/if}}
+
+{{!-- nút chọn sản phẩm trong giỏ hàng --}}
+<div class="mt-4 d-flex align-items-center wrapperFormCheck">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="check-all">
+        <label class="form-check-label" for="check-all">
+        Chọn tất cả
+        </label>
+    </div>
+    <select class="form-control form-control-cart form-control-sm checkbox-seclect-all-options" id="">
+    <option>-- Hành động --</option>
+    <option value="">Chọn tất cả</option>
+
+    </select>
+
+    {{!-- <button class="btn btn-primary btn-sm btn-check-all-submit disabled">Áp dụng</button> --}}
+</div>
+
+<table class="table table-cart" border="1" width="100%">
+    <thead>
+        <tr>
+            <th scope="col">Chọn</th>
+            <th scope="col">Sản phẩm</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Giá tiền</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Xóa</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each cartUser}}
+        <tr >
+            <td>
+                <div class="form-check">
+             <input class="form-check-input product-checkbox" type="checkbox" name="productIds[]" data-total="0" value="{{this.product}}" data-id="{{this.product}}">
+                </div>
+            </td>
+            {{!-- <th scope="row"></th> --}}
+            <td><img height="150" src="{{this.image}}" alt="{{this.name}}"></td>
+            <td>{{this.name}}</td>
+            <td>{{formatCurrency this.price}}</td>
+            <td>
+                <input type="number" class="quantity-input" min="1" max="{{this.quantityProduct}}" name="quantity" value="{{this.quantity}}" data-quantity="{{this.quantity}}">
+            </td>
+
+
+            {{!-- <td><input type="number" id="myInput" min="1" max="{{this.quantityProduct}}" name="quantity" value="{{this.quantity}}"></td> --}}
+            <input type="hidden" name="productId" value="{{this.product}}">
+            <td><a href="#" class="btn-link deleteProductionModal3" data-id="{{this.product}}"><i class="fa-solid fa-trash-can"></i></a></td>
+        </tr>
+        {{/each}}
+        {{#if cartUser}}
+        
+        <tr>
+            <td colspan="4"></td>
+            <td class="total-label"><strong>Tổng tiền:</strong></td>
+            <td class="total-amount">{{formatCurrency totalAmount}}</td>
+        </tr>
+        
+        <tr>
+            <td  colspan="6" style="font-weight: bold; font-size: 20px;"> 
+                <textarea id="note" name="note" rows="8" cols="50" placeholder="Ghi chú" style="margin: 0px; height: 67px; border-color: rgb(100, 152, 205); border-width: 1px; width: 1222px;"></textarea>
+            </td>
+           
+        </tr>   
+        {{/if}}
+    </tbody>
+</table>
+<div class="wrapper_button">
+    <button type="submit" class="btn-update">Cập nhật</button>
+</form>
+
+<form id="payment-form" action="/cart/checkout" method="POST">
+            <input type="hidden" name="id" value="" />
+            <button class="btn btn-payment btn-sm btn-check-all-submit disabled" data-product="{{this.product}}">Thanh toán</button>
+            </div>
+        </form>
+{{else}}
+    <tr>
+                    <h2  class="text-center-cart">
+                        Không có sản phẩm nào trong giỏ hàng!
+                        <a href="/production" style="color: red;"><i class="fa-solid fa-reply"></i> Tiếp tục quay lại mua hàng.</a>
+                    </h2>
+                </tr>
+{{/if}}
+
+        
+
+
+
+<div class="modal1">
+
+    <div class="confirmDelete">
+
+        <form name="delete-user-form-3" method="POST">
+            <div class="desc">Thông báo</div>
+            <div class="close2">
+                <span class="icon-close">
+                    <ion-icon name="close"></ion-icon>
+                </span>
+            </div>
+            <p>Bạn thật sự muốn xóa sản phẩm này ?</p>
+            <div class="action">
+                <button type="submit" id="btn-delete-user-3" class="btn">
+                    Đúng
+                </button>
+                <a class="btn denied"> Hủy </a>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+

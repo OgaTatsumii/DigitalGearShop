@@ -1,0 +1,152 @@
+<div class="CrProduction">
+    <h3>Đăng sản phẩm</h3>
+    <form
+        class="createForm"
+        enctype="multipart/form-data"
+        method="POST"
+        action="/production/store"
+    >
+        <div class="form-group">
+            <label class="title" for="name">Tên sản phẩm</label>
+            <span class="errorLogin">{{error_namePCreate}}</span>
+            <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="original_prices">Giá gốc</label>
+            <span class="errorLogin">{{error_original_prices}}</span>
+            <input
+                type="text"
+                class="form-control"
+                id="original_prices"
+                name="original_prices"
+                required
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="new_prices">Giá bán</label>
+            <span class="errorLogin">{{error_new_prices}}</span>
+
+            <input
+                type="text"
+                class="form-control"
+                id="new_prices"
+                name="new_prices"
+                required
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="quantity">Số lượng nhập kho</label>
+            <input
+                type="Number"
+                class="form-control mini"
+                id="quantity"
+                name="quantity"
+                required
+                min="0"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="image">Ảnh đại diện sản phẩm </label>
+            <div><input
+                    type="file"
+                    class="form-control"
+                    id="image"
+                    name="image[]"
+                    required
+                /></div>
+            <img
+                id="preview-image"
+                src="#"
+                alt="Preview Image"
+                style="display:none;width:100px;height:100px;margin-top:15px"
+            />
+        </div>
+        <div class="form-group descImage">
+            <label class="title" for="image">Ảnh mô tả sản phẩm </label>
+            <div><input
+                    type="file"
+                    class="form-control"
+                    id="descImage"
+                    name="image[]"
+                    multiple
+                /></div>
+            <div id="preview-image-2">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="type" for="type">Loại sản phẩm</label>
+            <select
+                class="form-control form-control-sm"
+                id="type"
+                name="type"
+                required
+            >
+
+                <option value="">---Chọn loại sản phẩm---</option>
+                <option value="VGA">VGA</option>
+                <option value="RAM">RAM</option>
+                <option value="SSD">SSD/HDD</option>
+                <option value="CASE">CASE</option>
+                <option value="MAIN">MAIN</option>
+                <option value="CPU">CPU</option>
+                <option value="FAN">FAN</option>
+                <option value="PSU">PSU</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="factory" for="factory">Hãng sản xuất</label>
+            <input
+                type="text"
+                class="form-control mini"
+                id="factory"
+                name="factory"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="title" for="ensure">Số tháng bảo hành</label>
+            <input
+                type="Number"
+                class="form-control mini"
+                id="ensure"
+                name="ensure"
+                min="0"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="title" for="deadline">Hạn ngừng kinh doanh</label>
+            <span class="errorLogin">{{error_deadline}}</span>
+            <input
+                type="date"
+                class="form-control-date form-control"
+                id="deadline"
+                name="deadline"
+                required
+            />
+        </div>
+
+        <button type="submit" id="addProductBtn" class="btn btn-primary ">Thêm sản phẩm </button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("addProductBtn").addEventListener("click",
+    function(event) { var originalPrice = parseFloat(document.getElementById("original_prices").value); 
+    var newPrice =parseFloat(document.getElementById("new_prices").value); 
+    if (newPrice < originalPrice) { 
+        event.preventDefault(); // Ngăn chặn việc submit form //
+    //Hiển thị thông báo và lưu trạng thái xác nhận vào biến 
+    var confirmed = confirm("Giá bán nhỏ hơn giá gốc. Bạn vẫn chắc chắn muốn thêm sản phẩm chứ?"); 
+    if (confirmed) { // Nếu người dùng xác nhận, tiến hành submit form
+    document.querySelector(".createForm").submit(); } } });
+</script>

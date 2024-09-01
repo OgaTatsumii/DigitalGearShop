@@ -1,0 +1,316 @@
+
+<div id="top"></div>
+
+{{!-- <a id="goToBottomButton" class="scroll-button" href="#bottom"><i class="fa-sharp fa-regular fa-circle-down" id="goToBottomButton" style="color: #1457db;"></i> </a> --}}
+<div class="row">
+
+    <div class="box box1">
+     <i class="fa-solid fa-arrow-up-right-dots icon" style="color: #009CFF;"></i>
+      <span class="todaySale"><strong>Doanh thu hôm nay</strong></span>
+      <p>{{formatCurrency toDaySale}}</p>
+      
+    </div>
+
+    <div class="box box2">
+      <i class="fa-solid fa-chart-column icon" style="color: #009CFF;"></i>
+      <span class="totalSale"><strong>Tổng doanh thu</strong></span>
+      <p>{{formatCurrency totalSale}}</p>
+      <span></span>
+    </div>
+
+    <div class="box">
+      <i class="fa-solid fa-chart-area icon" style="color: #009CFF;"></i>
+      <span class="importMoney"><strong>Tổng tiền nhập hàng</strong></span>
+      <p>{{formatCurrency importMoney}}</p>
+      <span></span>
+    </div>
+
+    <div class="box">
+      <i class="fa-solid fa-chart-pie icon" style="color: #009CFF;"></i>
+      <span class="profit"><strong>Tiền lời</strong></span>
+      <p>{{formatCurrency profitMoney}}</p>
+      <span></span>
+    </div>
+
+
+</div>
+
+<div class="row2">
+  <p class="titleStatistic"><strong>Tổng Doanh Thu</strong></p>
+    <p class="statisticOption">Bạn muốn thông kê theo 
+      <select name="statisticOption" id="statisticOption" class="OptionInStatistic" onchange="handleStatisticOptionChange()">
+        <option value="">Vui lòng chọn</option>
+        <option value="date">Ngày</option>
+        <option value="month">Tháng</option>
+        <option value="year">Năm</option>
+      </select>
+
+      {{!-- <span  class="statistics-according-to-option" onclick="enterInputStatisticOption()">Thống kê</span> --}}
+      {{#if error}}
+        <p class="enterInputStatisticOption ">{{error}}</p>
+      {{/if}}
+    </p>
+    <form action="/admin/statistic/statisticOption" method="POST">
+    {{!-- Nhập ngày để thống kê --}}
+    <div class="enter-input-option-date enter-input statisticOption" style="display: none;">
+      <input type="text"  class="input" name="date" placeholder="dd/mm/yyyy" pattern="^(?:(?:31\/(?:0[13578]|1[02]))\/(?:19|20)\d{2}|(?:(?:29|30)\/(?:0[13-9]|1[0-2]))\/(?:19|20)\d{2}|(?:29\/02\/(?:19|20)(?:0[48]|[2468][048]|[13579][26]))|(?:0[1-9]|1\d|2[0-8])\/(?:0[1-9]|1[0-2])\/(?:19|20)\d{2})$">
+    </div>
+
+    {{!-- Nhập tháng để thống kê --}}
+    <div class="enter-input-option-month enter-input statisticOption" style="display: none;">
+      <input type="text"  class="input" name="month" placeholder="mm/yyyy" pattern="^(0[1-9]|1[0-2])\/\d{4}$">
+    </div>
+    
+    {{!-- Nhập năm để thống kê --}}
+    <div class="enter-input-option-year enter-input statisticOption" style="display: none;">
+      <input type="text" class="input"  name="year" placeholder="yyyy" pattern="^\d{4}$">
+    </div>
+    <button type="submit" id="statisticButton" class="btnStatistic btn-success" style="display: none;">Thống kê</button>
+    </form>
+
+    {{!-- statistic content --}}
+    <div class="table-container-wrapper-statistic">
+      <table class="table-container-statistic" border="1" width="100%">
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Khách hàng</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">
+              Tổng(VNĐ)
+               {{{sortInstatistic "totalAmount" _sort }}}
+            </th>
+            <th scope="col">
+              Thời gian
+              {{{sortInstatistic "createdAt" _sort }}}
+            </th>
+          </tr>
+        </thead>
+      <div class="table-tbody-wrapper">
+        <tbody>
+          {{#each completedSale}}
+          <tr>
+            <th scope="row" class="stt">{{sum @index 1}}</th>
+            {{#each this.userInfor}}
+            <td>{{this.firstName}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phone}}</td>
+            {{/each}}
+            <td>{{formatCurrency this.totalAmount}}</td>
+            <td>{{formatDate this.createdAt}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </div>
+      </table>
+    </div>
+</div>
+
+
+<div class="row3 row2">
+  <form action="/admin/statistic/importMoneyOption" method="POST">
+    <p class="titleStatistic"><strong>Tổng Tiền Nhập Hàng</strong></p>
+    <p class="statisticOption">Bạn muốn thông kê theo 
+      <select name="importMoneyOption" id="statisticOption" class="OptionInStatistic">
+        <option value="">--- Chọn loại sản phẩm ---</option>
+        <option value="VGA">VGA</option>
+        <option value="RAM">RAM</option>
+        <option value="SSD">SSD/HDD</option>
+        <option value="CASE">CASE</option>
+        <option value="MAIN">MAIN</option>
+        <option value="CPU">CPU</option>
+        <option value="FAN">FAN</option>
+        <option value="PSU">PSU</option>
+      </select>
+      <button type="submit" id="statisticButton" class="btnStatistic btn-success">Thống kê</button>
+    </p>
+  </form>
+
+  {{!-- statistic content --}}
+  <div class="table-container-wrapper-statistic">
+    <table class="table-container-statistic" border="1" width="100%">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Loại sản phẩm</th>
+          <th scope="col">Tên sản phẩm</th>
+          <th scope="col">Số lượng
+            {{{sortInstatistic "total_quantity" _sort }}} 
+          </th>
+          <th scope="col">Giá nhập
+            {{{sortInstatistic "original_prices" _sort }}} 
+
+          </th>
+          <th scope="col">Giá bán
+            {{{sortInstatistic "new_prices" _sort }}}
+          </th>
+          <th scope="col">Tiền lời trên mỗi sản phẩm
+            {{{sortInstatistic "profitPerProduct" _sort }}} 
+          </th>
+          <th scope="col">Tổng
+            {{{sortInstatistic "total" _sort }}} 
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each totalimportMoneyPerP}}
+        <tr>
+          <th scope="row" class="stt">{{sum @index 1}}</th>
+          <td>{{this.type}}</td>
+          <td>{{this.name}}</td>
+          <td>{{this.total_quantity}}</td>
+          <td>{{formatCurrency this.original_prices}}</td>
+          <td>{{formatCurrency this.new_prices}}</td>
+          <td>{{ formatCurrency this.profitPerProduct}}</td>
+          <td>{{ formatCurrency this.total}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="row4 row2">
+    <p class="titleStatistic"><strong>Tình hình bán hàng</strong></p>
+  {{!-- statistic content --}}
+  <div class="table-container-wrapper-statistic">
+    <table class="table-container-statistic" border="1" width="100%">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Trạng thái</th>
+          <th scope="col">Số lượng đơn</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1</strong></td>
+          <td>Đang chuẩn bị hàng</td>
+          <td>{{preparingOrder}}</td>
+          <td><a href="/admin/statistic/preparingOrder" style="color: #009CFF; " >Chi tiết</a></td>
+        </tr>
+        <tr>
+          <td><strong>2</strong></td>
+          <td>Đang giao hàng</td>
+          <td>{{deliveringOrder}}</td>
+          <td><a href="/admin/statistic/deliveringOrder" style="color: #009CFF; " >Chi tiết</a></td>
+        </tr>
+        <tr>
+          <td><strong>3</strong></td>
+          <td>Đã giao hoàn tất</td>
+          <td>{{completedOrder}}</td>
+          <td><a href="/admin/statistic/completedOrder" style="color: #009CFF; " >Chi tiết</a></td>
+        </tr>
+        <tr>
+          <td><strong>4</strong></td>
+          <td>Giao không thành công</td>
+          <td>{{failedOrder}}</td>
+          <td><a href="/admin/statistic/failedOrder" style="color: #009CFF; " >Chi tiết</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+<div class="row5 row2">
+    <p class="titleStatistic"><strong>Người dùng có tổng giá trị các đơn hàng cao nhất</strong></p>
+  {{!-- statistic content --}}
+  <div class="table-container-wrapper-statistic">
+    <table class="table-container-statistic" border="1" width="100%">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Khách hàng</th>
+          <th scope="col">Email</th>
+          <th scope="col">Số điện thoại</th>
+          <th scope="col">Số đơn hàng</th>
+          <th scope="col">Tổng giá trị đơn hàng</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {{#each HighestSalesOfUsers}}
+        <tr>
+          <th scope="row" class="stt">{{sum @index 1}}</th>
+          {{#each this.userInfor}}
+          <td>{{this.firstName}}</td>
+          <td>{{this.email}}</td>
+          <td>{{this.phone}}</td>
+          {{/each}}
+          <td>{{ this.order_quantity}}</td>
+          <td>{{formatCurrency this.totalAmount}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row6 row2">
+  <form action="/admin/statistic/highestSalesOfType" method="POST">
+    <p class="titleStatistic"><strong>Sản phẩm với số lượng bán ra cao nhất</strong></p>
+    <p class="statisticOption">Bạn muốn thông kê theo
+      <select name="highestSalesOfType" id="statisticOption" class="OptionInStatistic">
+        <option value="">--- Chọn loại sản phẩm ---</option>
+        <option value="VGA">VGA</option>
+        <option value="RAM">RAM</option>
+        <option value="SSD">SSD/HDD</option>
+        <option value="CASE">CASE</option>
+        <option value="MAIN">MAIN</option>
+        <option value="CPU">CPU</option>
+        <option value="FAN">FAN</option>
+        <option value="PSU">PSU</option>
+      </select>
+      <button type="submit" id="statisticButton" class="btnStatistic btn-success">Thống kê</button>
+    </p>
+  </form>
+
+  {{!-- statistic content --}}
+  <div class="table-container-wrapper-statistic">
+    <table class="table-container-statistic" border="1" width="100%">
+      <thead>
+        <tr>
+          <th scope="col">STT</th>
+          <th scope="col">Loại sản phẩm</th>
+          <th scope="col">Tên sản phẩm</th>
+          <th scope="col">Tống số lượng</th>
+          <th scope="col">Đã bán</th>
+          <th scope="col">Tiền lời trên mỗi sản phẩm</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {{#each highestSales}}
+        <tr>
+          <th scope="row" class="stt">{{sum @index 1}}</th>
+          <td>{{this.type}}</td>
+          <td>{{this.name}}</td>
+          <td>{{this.total_quantity}}</td>
+          <td>{{subtract this.total_quantity this.quantity}}</td>
+          <td>{{formatCurrency this.profitPerProduct}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div id="bottom"></div>
+
+<script>
+const goToBottomButton = document.getElementById("goToBottomButton");
+document.getElementById("goToBottomButton").addEventListener("click", function(event) {
+  event.preventDefault();
+  const targetElement = document.getElementById("bottom");
+  targetElement.scrollIntoView({ behavior: "smooth" });
+});
+
+</script> 
+
+

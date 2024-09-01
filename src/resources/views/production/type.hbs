@@ -1,0 +1,144 @@
+
+<form method="GET" action="/production/type/sort/date/product" class="searchDate" id="searchDate">
+    <div class="searchDateContainer">
+        <select name="createdAt" class="selectType" id="situationProductSelect" required>
+            <option value="">--- Xếp theo ---</option>
+            <option value="Latest">Mới nhất</option>
+            <option value="Oldest">Cũ nhất</option>
+            <option value="PriceIncr">Giá: Tăng dần</option>
+            <option value="PriceDesc">Giá: Giảm dần</option>
+            <option value="NameA-Z">Tên: A-Z</option>
+            <option value="NameZ-A">Tên:Z-A</option>
+        </select>
+        <button type="submit" value="Search" class="buttonSearch">
+            <img class="imgBt" src="/img/search-icon.svg" alt="" />
+        </button>
+    </div>
+</form>
+
+{{#if noProducts}}
+    <h1 class="error">{{noProducts}}</h1>
+{{else}}
+<div class="coreiProduct">
+    {{#each productions}}
+        <div id="DIV_1">
+            <a
+                href="/production/{{this.slug}}"
+                id="A_2"
+            ></a>
+            <div id="DIV_3">
+                <a
+                    href="/production/{{this.slug}}"
+                    id="A_4"
+                ><img src="{{this.image.[0]}}" alt="{{this.name}}" id="IMG_5" /></a>
+                <div id="DIV_6">
+                    <a
+                        href="/production/{{this.slug}}"
+                        id="A_7"
+                    ><div id="DIV_8">
+                            Xem chi tiết
+                        </div></a>
+                    {{#if (eq this.quantity 0)}}
+                       <p class="outOfStock">Hết hàng</p>
+                    {{else}}
+                    <form action="/cart/add-to-cart" method="POST">
+                        <input type="hidden" name="id" value="{{this._id}}">
+                        <button id="A_9" type="submit">Đặt hàng</button>    
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+            <h2 id="H2_10">
+                <a
+                    href="/production/{{this.slug}}"
+                    class="line-clamp"
+                >{{this.name}}</a>
+            </h2>
+            <div id="DIV_11">
+                <div id="DIV_12">
+                    <br id="BR_13" /><span id="SPAN_14">{{formatCurrency
+                            this.new_prices
+                        }}</span>
+                </div>
+
+            </div>
+        </div>
+
+    {{/each}}
+     <!-- pagination -->
+    
+    {{#if sort}}
+    <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/type/sort/date/product/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/production/type/sort/date/product/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/type/sort/date/product/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+    {{else}}
+    <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/type/{{type}}/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/production/type/{{../type}}/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/production/type/{{type}}/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+    {{/if}}
+</div>
+{{/if}}

@@ -1,0 +1,95 @@
+<main>
+    <div class="imgHome">
+        <img
+            class="img-block-1"
+            src="/img/group25.png"
+            alt=""
+        />
+        <img
+            class="img-block-2"
+            src="/img/linh-kien-04-20230130065417-iotyi.png"
+            alt=""
+        />
+    </div>
+</main>
+
+<div class="coreiProduct">
+
+    {{#each productions}}
+        <div id="DIV_1">
+            <div id="DIV_3">
+                <a href="/production/{{this.slug}}" id="A_4"><img
+                        src="{{this.image.[0]}}"
+                        alt="{{this.name}}"
+                        id="IMG_5"
+                    /></a>
+                <div id="DIV_6">
+                    <a href="/production/{{this.slug}}" id="A_7"><div
+                            id="DIV_8"
+                        >
+                            Xem chi tiết
+                        </div></a>
+                    {{#if (eq this.quantity 0)}}
+                       <p class="outOfStock">Hết hàng</p>
+                    {{else}}
+                    <form action="/cart/add-to-cart" method="POST">
+                        <input type="hidden" name="id" value="{{this._id}}">
+                        <button id="A_9" type="submit">Đặt hàng</button>    
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+            <h2 id="H2_10">
+                <a
+                    href="/production/{{this.slug}}"
+                    class="line-clamp"
+                >{{this.name}}</a>
+            </h2>
+            <div id="DIV_11">
+                <div id="DIV_12">
+                    <br id="BR_13" /><span id="SPAN_14">{{formatCurrency
+                            this.new_prices
+                        }}</span>
+                </div>
+
+            </div>
+        </div>
+
+    {{/each}}
+    <!-- pagination -->
+    <nav aria-label="Page navigation example" class="pagination">
+        <ul class="pagination">
+            {{#if (gt current 1)}}
+            <li class="page-item">
+            <a class="page-link" href="/page/{{subtract current 1}}">&lsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&lsaquo;</span>
+            </li>
+            {{/if}}
+            
+            {{#each (range 1 totalPages)}}
+            {{#if (ne ../current this)}}
+                <li class="page-item">
+                <a class="page-link" href="/page/{{this}}">{{this}}</a>
+                </li>
+            {{else}}
+                <li class="page-item active">
+                <span class="page-link">{{this}}</span>
+                </li>
+            {{/if}}
+            {{/each}}
+            
+            {{#if (gt totalPages current)}}
+            <li class="page-item">
+            <a class="page-link" href="/page/{{sum current 1}}">&rsaquo;</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+            <span class="page-link">&rsaquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+</div>

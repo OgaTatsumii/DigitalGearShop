@@ -1,0 +1,171 @@
+<head>
+    <script src="https://kit.fontawesome.com/826d945e8c.js"></script>
+</head>
+<!-- HomePage -->
+<div class="homePage">
+    <!-- Header -->
+    <div class="header">
+        <!-- Logo -->
+        <a href="/">
+            <img class="logo" src="/img/logo.svg" alt="GEARVN" /></a>
+
+        <!-- Search -->
+        <form method="GET" action="/production/search" class="search">
+            <input
+                type="text"
+                name="name"
+                placeholder="Nhập mã hoặc tên sản phẩm"
+                class="inputSearch"
+            />
+            <button type="submit" value="Search" class="buttonSearch">
+                <img class="imgBt" src="/img/search-icon.svg" alt="" />
+            </button>
+        </form>
+        <!-- shopping cart -->
+        <div class="shoppingCart">
+            <a class="description" href="/cart"><p>Giỏ hàng</p></a>
+            <a class="icon" href="/cart">
+                <img src="/img/gioHang.svg" alt="" />
+            </a>
+            <span class="badge1"><strong>{{totalProduct}}</strong></span>
+        </div>
+        <!--Dropdown-->
+         {{#if (eq role 'admin') }} 
+         
+                 <div class="shoppingProduct1">
+            <a class="description" href="/production"><p>Sản phẩm</p></a>
+        </div> 
+        <ul class="iconButton">
+            <li>
+                
+                <a href="#!">
+                    <img src="/img/menu_icon.svg" alt="dropDown" /> 
+                    
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="/production">Sản phẩm</a>
+                    </li>
+                    <li>
+                        <a href="/production/create">Tạo sản phẩm</a>
+                    </li>
+                    <li>
+                        <a href="/admin/stored/production">Quản lí sản phẩm</a>
+                    </li>
+                    <li>
+                        <a href="/admin/stored/account">Quản lí tài khoản</a>
+                    </li>
+                    <li>
+                        <a href="/admin/stored/order">Quản lí đơn hàng</a>
+                    </li>
+                    <li>
+                        <a href="/admin/statistic">Thống kê</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+         {{else}}
+        <div class="shoppingProduct">
+            <a class="description" href="/production"><p>Sản phẩm</p></a>
+        </div> 
+        {{/if}} 
+        <!-- sign in -->
+        {{#if loggedIn}}
+            <span class="userName">{{username}}</span>
+
+            <img
+                class="imgUser"
+                src="https://haycafe.vn/wp-content/uploads/2022/02/Avatar-trang-den.png"
+                alt=""
+            />
+            <ul class="iconButton">
+                <li>
+                    <a href="#!">
+                        <ion-icon
+                            class="dropDown"
+                            name="caret-down-outline"
+                        ></ion-icon>
+                    </a>
+                    <ul class="sub-menu user">
+                        <li>
+                            <a href="/account/{{userId}}/detail">Cập nhật thông
+                                tin
+                            </a>
+                        </li>
+                        <li>
+                            <form class="logOut" action="/logout" method="POST">
+                                <a
+                                    href="#"
+                                    onclick="document.querySelector('.logOut').submit();"
+                                >Đăng xuất</a>
+                            </form>
+                        </li>
+                        <li>
+                            <a href="/account/{{userId}}/myOrder">Đơn hàng của tôi
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        {{else}}
+            <a id="signupButton" class="sign-in" href="#!">Đăng ký</a>
+            <a id="loginButton" class="sign-up" href="#!">Đăng nhập</a>
+        {{/if}}
+
+    </div>
+</div>
+
+<div class="listProduction">
+    <ul>
+        <li>
+            <div class="list1">
+                <a href="/production/type/VGA">VGA</a>
+                {{! <img class="icon" src="/img/graphics-card.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/RAM">RAM</a>
+                {{! <img class="icon" src="/img/ram.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/SSD">SSD/HDD</a>
+                {{! <img class="icon" src="/img/ssd.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/CASE">CASE</a>
+                {{! <img class="icon" src="/img/computer-case.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/MAIN">MAIN</a>
+                {{! <img class="icon" src="/img/main.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/CPU">CPU</a>
+                {{! <img class="icon" src="/img/cpu.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/FAN">FAN</a>
+                {{! <img class="icon" src="/img/fan.png" alt="" /> }}
+            </div>
+        </li>
+        <li>
+            <div class="list1">
+                <a href="/production/type/PSU">PSU</a>
+                {{! <img class="icon" src="/img/psu.png" alt="" /> }}
+            </div>
+        </li>
+    </ul>
+</div>

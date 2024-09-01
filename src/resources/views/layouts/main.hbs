@@ -1,0 +1,157 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="/css/app.css" />
+        <link rel="stylesheet" href="/css/reset.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <title>Document</title>
+        <script src="https://kit.fontawesome.com/826d945e8c.js"></script>
+
+    </head>
+    <body>
+        {{>header}}
+
+        {{{body}}}
+
+        <!-- Login -->
+        <div class="modal">
+            <div class="wrapper">
+                <div class="close1">
+                    <span class="icon-close">
+                        <ion-icon name="close"></ion-icon>
+                    </span>
+                </div>
+                <div class="form-box login">
+                    <h2>Đăng nhập</h2>
+                    <form action="/login" method ="POST" >
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="mail"
+                                ></ion-icon></span>
+                            <input type="email" name="email" required />
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="lock-closed"
+                                ></ion-icon></span>
+                            <input type="password" name="password" required />
+                            <label for="ipnPassword">Mật khẩu</label>
+                            <i class="fa-solid fa-eye hiden-unhiden"></i>
+                            
+                        </div>
+                        <div class="remember-forgot">
+                            <label><input type="checkbox" />
+                                Lưu lại tài khoản</label>
+                            <a href="/forgot-password" onclick="forgotPassword()">Quên mật khẩu?</a>
+                        </div>
+                        <button type="submit" class="btn">Đăng nhập</button>
+                        <div class="login-register">
+                            <p>
+                                Chưa có tài khoản ?
+                                <a href="#" class="register-link"> Đăng kí </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-box register">
+                    <h2>Đăng kí</h2>
+                    <form method = "POST" action="/register">
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="person"
+                                ></ion-icon></span>
+                            <input type="text"  id="name" name="username" required />
+                            <label>Tên tài khoản</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="mail"
+                                ></ion-icon></span>
+                            <input type="email" id="email" name="email" required />
+                            <label>Email</label>
+                        </div>
+                        <div class="input-box">
+                            <span class="icon"><ion-icon
+                                    name="lock-closed"
+                                ></ion-icon></span>
+                            <input type="password" id="password" name="password" required />
+                            <label>Mật khẩu</label>
+                        </div>
+                        <div class="remember-forgot">
+                            <label><input type="checkbox" />
+                                Tôi đồng ý với điều khoản dịch vụ</label>
+                        </div>
+                        <button type="submit" class="btn">Đăng kí</button>
+                        <div class="login-register">
+                            <p>
+                                Đã có tài khoản ?
+                                <a href="#" class="login-link"> Đăng nhập </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{>footer}}
+        
+        {{!-- <script src="/animation/script_updateForm.js"></script> --}}
+        {{!-- <script src="/animation/script_addTypeProduct.js"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="/animation/script_imageUpload.js"></script>
+        <script src="/animation/script_addTypeProduct.js"></script>
+        <script src="/animation/script_slideImage.js"></script>
+        <script src="/animation/script_allCheckCart.js"></script>
+        <script src="/animation/script_accountDetail.js"></script>
+        <script src="/animation/script_confirmDelete.js"></script>
+        <script src="/animation/script_statistic.js"></script>
+        <script src="/animation/script_Login.js"></script>
+        <script src="/animation/script_restore.js"></script>
+        <script src="/animation/script_allCheck.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script
+            type="module"
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+            nomodule
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+        ></script>
+    </body>
+    <script>
+    const togglePassword = document.querySelector(".hiden-unhiden");
+    const passwordInput = document.querySelector("input[name='password']");
+
+    togglePassword.addEventListener("click", function () {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+        togglePassword.classList.toggle("fa-eye");
+        togglePassword.classList.toggle("fa-eye-slash");
+  });
+</script>
+
+    <script>
+        function forgotPassword(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+
+        // Sau khi thực hiện xong, chuyển hướng người dùng đến trang "/logout"
+        window.location.href = "/forgot-password";
+  }
+    </script>
+
+</html>

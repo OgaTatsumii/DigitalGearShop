@@ -1,0 +1,100 @@
+
+
+<div class="CrProduction">
+    <h3>Thông tin tài khoản</h3>
+
+    {{#if success}}
+        <span class="successChangeInfo">{{success}}</span>
+    {{/if}}
+    <form method="POST" action="/account/{{user._id}}?_method=PUT">
+        <div class="form-group">
+            <label class="title" for="username">Username</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{user.username}}"
+                id="username"
+                name="username" 
+                required
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="firstName">Họ và tên</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{user.firstName}}"
+                id="firstName"
+                name="firstName"
+                {{!-- pattern="^[a-zA-Z]+(?:\s[a-zA-Z]+)?$" --}}
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="email">Email</label>
+            <input
+                type="email"
+                class="form-control"
+                value="{{user.email}}"
+                id="email"
+                name="email"
+                disabled
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="address">Mật khẩu <i class="fa-solid fa-eye hiden-unhiden"></i></label>
+            <input
+                type="password"
+                class="form-control"
+                value="{{user.password}}"
+                id="password"
+                name="password"
+                disabled
+            />
+            <p class="change-password" onclick="showChangePassword()" >Đổi mật khẩu</p>
+            {{#if error}}
+                <span class="errorChangePassword">{{error}}</span>
+            {{/if}}
+        </div>
+        <div class="form-group password-change"  style="display: none;">
+            <label class="title" for="new-password">Mật khẩu mới</label>
+            <input
+                type="password"
+                class="form-control"
+                id="newPassword"
+                name="newPassword"
+            />
+        </div>
+        <div class="form-group password-change"  style="display: none;">
+            <label class="title" for="confirm-password">Xác nhận mật khẩu mới</label>
+            <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                name="confirmPassword"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="phone">Số điện thoại</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{user.phone}}"
+                id="phone"
+                name="phone"
+                pattern="^0\d{9}$"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="address">Địa chỉ</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{user.address}}"
+                id="address"
+                name="address"
+            />
+        </div>
+            {{!-- <a href="#" class="btn-link deleteProductionModal4" data-id="{{user._id}}">Cập nhật</a> --}}
+            <button type="submit" class="btn-outline-success">Cập nhật</button>
+    </form>
+</div>

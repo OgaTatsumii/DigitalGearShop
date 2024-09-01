@@ -1,0 +1,114 @@
+<div class="detailProduction">
+    <div class="image">
+        <img
+            class="showpic"
+            src="{{production.image.[0]}}"
+            alt="{{production.name}}"
+        />
+
+        <div class="minipic">
+            {{#each production.image}}
+                <img src="{{this}}" alt="" />
+            {{/each}}
+
+        </div>
+
+    </div>
+    <div class="desc">
+        <h2>{{production.name}}</h2>
+        <div class="info">
+            <h3>Thông tin chung:</h3>
+            <ul>
+                <li>Hãng sản xuất:
+                    <span class="formatted-factory">{{production.factory}}
+                    </span>
+                </li>
+                <li>Bảo hành:
+                    <span class="formatted-factory">{{production.ensure}}
+                        tháng
+                    </span>
+                </li>
+                <li>Mã sản phẩm: </li>
+                <li>Còn lại:
+                    <span class="formatted-factory">{{production.quantity}}
+                        sản phẩm
+                    </span></li>
+                <li>Phân phối độc quyền duy nhất tại GEARVN </li>
+
+                <li>Cam kết bồi thường nếu nếu có sự cố xảy ra trong thời gian
+                    bảo hành
+                </li>
+
+            </ul>
+        </div>
+        <div class="price">
+            <ul>
+                <li>Giá cũ:</li>
+                <li>Giá khuyến mãi:
+                    <span class="formatted-price">{{formatCurrency
+                            production.new_prices
+                        }}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        {{#if (eq production.quantity 0)}}
+            <button class="order non_order" type="submit">Hết hàng</button>
+
+        {{else}}
+            <form action="/cart/add-to-cart" method="POST">
+                <input type="hidden" name="id" value="{{production._id}}" />
+                <button class="order" type="submit">Đặt hàng</button>
+            </form>
+        {{/if}}
+
+    </div>
+
+</div>
+
+<h2 class="rlProduct">SẢN PHẨM LIÊN QUAN </h2>
+<div class="coreiProduct">
+    {{#each relatedProductions}}
+        <div id="DIV_1">
+            <div id="DIV_3">
+                <a href="/production/{{this.slug}}" id="A_4"><img
+                        src="{{this.image.[0]}}"
+                        alt="{{this.name}}"
+                        id="IMG_5"
+                    /></a>
+                <div id="DIV_6">
+                    <a href="/production/{{this.slug}}" id="A_7"><div
+                            id="DIV_8"
+                        >
+                            Xem chi tiết
+                        </div></a>
+
+                    {{#if (eq this.quantity 0)}}
+                       <p class="outOfStock">Hết hàng</p>
+                    {{else}}
+                    <form action="/cart/add-to-cart" method="POST">
+                        <input type="hidden" name="id" value="{{this._id}}">
+                        <button id="A_9" type="submit">Đặt hàng</button>    
+                    </form>
+                    {{/if}}
+                </div>
+            </div>
+            <h2 id="H2_10">
+                <a
+                    href="/production/{{this.slug}}"
+                    class="line-clamp"
+                >{{this.name}}</a>
+            </h2>
+            <div id="DIV_11">
+                <div id="DIV_12">
+                    <br id="BR_13" /><span id="SPAN_14">{{formatCurrency
+                            this.new_prices
+                        }}</span>
+                </div>
+
+            </div>
+        </div>
+    {{else}}
+        <h3>Không có sản phẩm liên quan</h3>
+    {{/each}}
+</div>

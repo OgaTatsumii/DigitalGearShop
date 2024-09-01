@@ -1,0 +1,115 @@
+<div class="CrProduction">
+    <h3>Cập nhật sản phẩm </h3>
+
+    <form id="updateForm" method="POST" action="/production/{{productions._id}}?_method=PUT">
+        <div class="form-group">
+            <label class="title" for="name">Tên sản phẩm</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{productions.name}}"
+                id="name"
+                name="name"
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="title" for="new_prices">Giá tiền</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{productions.new_prices}}"
+                id="new_prices"
+                name="new_prices"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="original_prices">Giá gốc</label>
+            <input
+                type="text"
+                class="form-control"
+                value="{{productions.original_prices}}"
+                id="original_prices"
+                name="original_prices"
+                required
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="new_prices">Số lượng trong kho</label>
+            <input
+                type="number"
+                class="form-control"
+                value="{{productions.quantity}}"
+                id="quantity"
+                name="quantity"
+                min="0"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="deadline">Hạn ngừng kinh doanh</label>
+            <input
+                type="String"
+                class="form-control-date form-control"
+                value="{{formatDateInput productions.deadline}}"
+                id="deadline"
+                readonly
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="deadline">Cập nhật hạn ngừng kinh doanh</label>
+            <input
+                type="Date"
+                class="form-control-date form-control"
+                value="{{productions.deadline}}"
+                id="deadline"
+                name="deadline"
+            />
+        </div>
+        <div class="form-group">
+            <label class="title" for="image">Ảnh đại diện sản phẩm </label>
+            <div>
+                <input
+                    type="file"
+                    class="form-control"
+                    id="image"
+                    name="disabled_image"
+                />
+            </div>
+            {{#if productions.image.[0]}}
+                <img
+                    id="preview-image"
+                    src="{{productions.image.[0]}}"
+                    alt="Preview Image"
+                    style="display:block;width:100px;height:100px;margin-top:15px"
+                />
+            {{/if}}
+        </div>
+        <div class="form-group descImage">
+            <label class="title" for="image">Ảnh mô tả sản phẩm </label>
+            <div>
+                <input
+                    type="file"
+                    class="form-control"
+                    id="descImage"
+                    name="disabled_descImage"
+                    multiple
+                />
+            </div>
+            <div id="preview-image-2">
+                {{#each productions.image}}
+                    <div class="imgWrapper">
+                        <img
+                            src="{{this}}"
+                            alt=""
+                            class="detailImg"
+                            style="display: inline-block; width: 100px; height: 100px; margin-right: 10px; margin-top: 20px;"
+                        />
+                        <div id="remove-image-button"><ion-icon name="close-circle-outline" role="img" class="md hydrated"></ion-icon></div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+</div>
